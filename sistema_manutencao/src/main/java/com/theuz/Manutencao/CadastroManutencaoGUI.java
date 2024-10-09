@@ -113,8 +113,6 @@ public class CadastroManutencaoGUI extends JFrame {
         }
     }
     
-    
-
     // Método para carregar os técnicos da API e preencher o comboTecnicos
     private void carregarTecnicos() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {

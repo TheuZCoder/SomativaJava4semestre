@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import com.theuz.Falha.CadastroFalhaGUI;
 import com.theuz.Manutencao.CadastroManutencaoGUI;
 import com.theuz.Maquina.CadastroMaquinaGUI;
 import com.theuz.Tecnico.CadastroTecnicoGUI;
@@ -41,13 +42,10 @@ public class TelaPrincipal extends JFrame {
             new CadastroManutencaoGUI().setVisible(true);
         });
 
-        // btnRegistroFalhas.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         // Abre a tela de Registro de Falhas
-        //         new RegistroFalhasGUI().setVisible(true);
-        //     }
-        // });
+        btnRegistroFalhas.addActionListener((ActionEvent e) -> {
+            // Abre a tela de Registro de Falhas
+            new CadastroFalhaGUI().setVisible(true);
+        });
 
         btnCadastroTecnicos.addActionListener((ActionEvent e) -> {  
             // Abre a tela de Cadastro de Técnicos
