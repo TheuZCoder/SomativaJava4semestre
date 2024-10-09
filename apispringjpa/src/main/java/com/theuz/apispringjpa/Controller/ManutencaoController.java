@@ -95,7 +95,7 @@ public class ManutencaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Optional<Manutencao> manutencao = manutencaoService.findById(id);
         if (manutencao.isPresent()) {
             manutencaoService.deleteById(id);
