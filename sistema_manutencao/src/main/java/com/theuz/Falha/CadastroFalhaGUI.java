@@ -28,13 +28,13 @@ public class CadastroFalhaGUI extends JFrame {
     private final JTextField txtProblema;
     private final JComboBox<String> comboPrioridade;
     private final JComboBox<String> comboTecnicos;
-    private final JButton btnSalvar;
+    private final JButton btnSalvar, btnVoltar;
 
     public CadastroFalhaGUI() {
         setTitle("Cadastro de Falha");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(6, 2));
+        setLayout(new GridLayout(7, 2));
 
         // Labels e campos
         JLabel lblMaquina = new JLabel("Máquina:");
@@ -53,6 +53,7 @@ public class CadastroFalhaGUI extends JFrame {
         comboTecnicos = new JComboBox<>(new String[]{}); // Aqui você pode buscar os técnicos da API
 
         btnSalvar = new JButton("Salvar");
+        btnVoltar = new JButton("Voltar");
 
         // Adicionando componentes à tela
         add(lblMaquina);
@@ -66,11 +67,17 @@ public class CadastroFalhaGUI extends JFrame {
         add(lblTecnico);
         add(comboTecnicos);
         add(new JLabel());  // Espaço vazio
+        add(new JLabel()); 
+        add(btnVoltar); 
         add(btnSalvar);
 
         // Ação do botão salvar
         btnSalvar.addActionListener((ActionEvent e) -> {
             salvarFalha();
+        });
+
+        btnVoltar.addActionListener((ActionEvent e) -> {
+            dispose();
         });
 
         // Carregar máquinas e técnicos

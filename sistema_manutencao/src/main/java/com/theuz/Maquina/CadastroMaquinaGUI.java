@@ -16,9 +16,9 @@ public class CadastroMaquinaGUI extends JFrame {
 
     public CadastroMaquinaGUI() {
         setTitle("Cadastro de Máquina");
-        setSize(400, 300);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(10, 2));
+        setLayout(new GridLayout(11, 2));
 
         // Criação dos componentes
         JLabel lblCodigo = new JLabel("Código:");
@@ -50,6 +50,8 @@ public class CadastroMaquinaGUI extends JFrame {
 
         JButton btnCadastrar = new JButton("Cadastrar");
 
+        JButton btnVoltar = new JButton("Voltar");
+
         // Adiciona os componentes ao JFrame
         add(lblCodigo);
         add(tfCodigo);
@@ -69,6 +71,9 @@ public class CadastroMaquinaGUI extends JFrame {
         add(tfDetalhes);
         add(lblManual);
         add(tfManual);
+        add(new JLabel()); 
+        add(new JLabel()); 
+        add(btnVoltar); 
         add(btnCadastrar);
         
 
@@ -78,6 +83,10 @@ public class CadastroMaquinaGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 cadastrarMaquina();
             }
+        });
+
+        btnVoltar.addActionListener((ActionEvent e) -> {
+            dispose();
         });
     }
 

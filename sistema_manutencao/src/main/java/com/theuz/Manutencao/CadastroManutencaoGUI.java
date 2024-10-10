@@ -29,13 +29,13 @@ public class CadastroManutencaoGUI extends JFrame {
     private final JTextField txtTempoParado;
     private final JComboBox<String> comboTecnicos;
     private final JTextField txtObservacoes;
-    private final JButton btnSalvar;
+    private final JButton btnSalvar, btnVoltar;
 
     public CadastroManutencaoGUI() {
         setTitle("Cadastro de Manutenção");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(8, 2));
+        setLayout(new GridLayout(9, 2));
 
         // Labels e campos
         JLabel lblMaquina = new JLabel("Máquina:");
@@ -60,6 +60,7 @@ public class CadastroManutencaoGUI extends JFrame {
         txtObservacoes = new JTextField();
 
         btnSalvar = new JButton("Salvar");
+        btnVoltar = new JButton("Voltar");
 
         // Adicionando componentes à tela
         add(lblMaquina);
@@ -77,6 +78,8 @@ public class CadastroManutencaoGUI extends JFrame {
         add(lblObservacoes);
         add(txtObservacoes);
         add(new JLabel());  // Espaço vazio
+        add(new JLabel()); 
+        add(btnVoltar); 
         add(btnSalvar);
 
         // Carrega os dados das máquinas e técnicos
@@ -86,6 +89,10 @@ public class CadastroManutencaoGUI extends JFrame {
         // Ação do botão salvar
         btnSalvar.addActionListener((ActionEvent e) -> {  
             salvarManutencao();
+        });
+
+        btnVoltar.addActionListener((ActionEvent e) -> {
+            dispose();
         });
     }
 

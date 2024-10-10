@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,22 +32,28 @@ public class Relatorio extends JFrame {
         setLayout(new BorderLayout());
 
         // Criar modelo e tabela para falhas
-        String[] columnNamesFalhas = { "ID", "Máquina", "Data da Falha", "Problema", "Prioridade", "Técnico" };
+        String[] columnNamesFalhas = { "Máquina", "Data da Falha", "Problema", "Prioridade", "Técnico" };
         modeloTabelaFalhas = new DefaultTableModel(columnNamesFalhas, 0);
         tabelaFalhas = new JTable(modeloTabelaFalhas);
 
         // Criar modelo e tabela para manutenções
-        String[] columnNamesManutencoes = { "ID", "Máquina", "Data da Manutenção", "Tipo", "Peças Trocadas", "Técnico" };
+        String[] columnNamesManutencoes = { "Máquina", "Data da Manutenção", "Tipo", "Peças Trocadas", "Técnico" };
         modeloTabelaManutencoes = new DefaultTableModel(columnNamesManutencoes, 0);
         tabelaManutencoes = new JTable(modeloTabelaManutencoes);
+
+        // Adicionar títulos para cada tabela
+        JLabel tituloFalhas = new JLabel("Relatório de Falhas");
+        JLabel tituloManutencoes = new JLabel("Relatório de Manutenção");
 
         // Adicionar tabelas a JScrollPane
         JScrollPane scrollPaneFalhas = new JScrollPane(tabelaFalhas);
         JScrollPane scrollPaneManutencoes = new JScrollPane(tabelaManutencoes);
 
-        // Adicionar as tabelas ao layout
-        add(scrollPaneFalhas, BorderLayout.NORTH);
-        add(scrollPaneManutencoes, BorderLayout.CENTER);
+        // Adicionar os títulos e tabelas ao layout
+        add(tituloFalhas, BorderLayout.NORTH);
+        add(scrollPaneFalhas, BorderLayout.CENTER);
+        add(tituloManutencoes, BorderLayout.SOUTH);
+        add(scrollPaneManutencoes, BorderLayout.SOUTH);
 
         // Carregar os dados nas tabelas
         carregarManutencoesFalhas();
@@ -69,10 +76,9 @@ public class Relatorio extends JFrame {
                         String nomeTecnico = manutencao.getJSONObject("tecnico").getString("nome");
 
                         Object[] rowData = {
-                                manutencao.getInt("id"),
                                 nomeMaquina,
-                                manutencao.getString("dataManutencao"), // Corrigido para "dataManutencao"
-                                manutencao.getString("tipo"), // Corrigido para "tipo"
+                                manutencao.getString("dataManutencao"),
+                                manutencao.getString("tipo"),
                                 manutencao.getString("pecasTrocadas"),
                                 nomeTecnico
                         };
@@ -98,9 +104,8 @@ public class Relatorio extends JFrame {
                         String nomeTecnico = falha.getJSONObject("tecnico").getString("nome");
 
                         Object[] rowData = {
-                                falha.getInt("id"),
                                 nomeMaquina,
-                                falha.getString("dataFalha"), // Corrigido para "dataFalha"
+                                falha.getString("dataFalha"),
                                 falha.getString("problema"),
                                 falha.getString("prioridade"),
                                 nomeTecnico

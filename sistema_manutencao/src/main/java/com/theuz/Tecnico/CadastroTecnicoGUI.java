@@ -21,13 +21,13 @@ public class CadastroTecnicoGUI extends JFrame {
     private final JTextField txtNome;
     private final JTextField txtEspecialidade;
     private final JTextField txtDisponibilidade;
-    private final JButton btnSalvar;
+    private final JButton btnSalvar, btnVoltar;
 
     public CadastroTecnicoGUI() {
         setTitle("Cadastro de Técnico");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(4, 2));
+        setLayout(new GridLayout(5, 2));
 
         // Labels e campos
         JLabel lblNome = new JLabel("Nome:");
@@ -39,6 +39,8 @@ public class CadastroTecnicoGUI extends JFrame {
         JLabel lblDisponibilidade = new JLabel("Disponibilidade:");
         txtDisponibilidade = new JTextField();
 
+        btnVoltar = new JButton("Voltar");
+
         btnSalvar = new JButton("Salvar");
 
         // Adicionando componentes à tela
@@ -49,11 +51,17 @@ public class CadastroTecnicoGUI extends JFrame {
         add(lblDisponibilidade);
         add(txtDisponibilidade);
         add(new JLabel());  // Espaço vazio
+        add(new JLabel()); 
+        add(btnVoltar); 
         add(btnSalvar);
 
         // Ação do botão salvar
         btnSalvar.addActionListener((ActionEvent e) -> {
             salvarTecnico();
+        });
+
+        btnVoltar.addActionListener((ActionEvent e) -> {
+            dispose();
         });
     }
 
