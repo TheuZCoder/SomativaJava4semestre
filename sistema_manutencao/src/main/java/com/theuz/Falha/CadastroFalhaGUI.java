@@ -38,7 +38,7 @@ public class CadastroFalhaGUI extends JFrame {
 
         // Labels e campos
         JLabel lblMaquina = new JLabel("Máquina:");
-        comboMaquinas = new JComboBox<>(new String[]{"Máquina 1", "Máquina 2"}); // Aqui você pode buscar as máquinas da API
+        comboMaquinas = new JComboBox<>(new String[]{}); // Aqui você pode buscar as máquinas da API
 
         JLabel lblDataFalha = new JLabel("Data da Falha:");
         txtDataFalha = new JTextField();
@@ -50,7 +50,7 @@ public class CadastroFalhaGUI extends JFrame {
         comboPrioridade = new JComboBox<>(new String[]{"Baixa", "Média", "Alta"});
 
         JLabel lblTecnico = new JLabel("Técnico:");
-        comboTecnicos = new JComboBox<>(new String[]{"Técnico 1", "Técnico 2"}); // Aqui você pode buscar os técnicos da API
+        comboTecnicos = new JComboBox<>(new String[]{}); // Aqui você pode buscar os técnicos da API
 
         btnSalvar = new JButton("Salvar");
 
@@ -90,7 +90,7 @@ public class CadastroFalhaGUI extends JFrame {
         // Monta o JSON com os dados da falha
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             // Define o endpoint da sua API para cadastro de falha
-            HttpPost post = new HttpPost("http://localhost:8080/falhas");
+            HttpPost post = new HttpPost("http://localhost:8080/falha");
 
             // Cria o objeto JSON com os dados da falha
             JSONObject json = new JSONObject();

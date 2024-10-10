@@ -10,6 +10,7 @@ import com.theuz.Falha.CadastroFalhaGUI;
 import com.theuz.Manutencao.CadastroManutencaoGUI;
 import com.theuz.Maquina.CadastroMaquinaGUI;
 import com.theuz.Tecnico.CadastroTecnicoGUI;
+import com.theuz.View.Relatorio;
 
 public class TelaPrincipal extends JFrame {
 
@@ -24,12 +25,14 @@ public class TelaPrincipal extends JFrame {
         JButton btnRegistroManutencao = new JButton("Registro de Manutenções");
         JButton btnRegistroFalhas = new JButton("Registro de Falhas");
         JButton btnCadastroTecnicos = new JButton("Cadastro de Técnicos");
+        JButton btnRelatorio = new JButton("Relatório");
 
         // Adicionando os botões ao JFrame
         add(btnCadastroMaquinas);
         add(btnRegistroManutencao);
         add(btnRegistroFalhas);
         add(btnCadastroTecnicos);
+        add(btnRelatorio);
 
         // Ações dos botões
         btnCadastroMaquinas.addActionListener((ActionEvent e) -> {
@@ -50,6 +53,11 @@ public class TelaPrincipal extends JFrame {
         btnCadastroTecnicos.addActionListener((ActionEvent e) -> {  
             // Abre a tela de Cadastro de Técnicos
             new CadastroTecnicoGUI().setVisible(true);
+        });
+
+        btnRelatorio.addActionListener((ActionEvent e) -> {
+            // Abre a tela de Relatório
+            new Relatorio().setVisible(true);
         });
     }
 

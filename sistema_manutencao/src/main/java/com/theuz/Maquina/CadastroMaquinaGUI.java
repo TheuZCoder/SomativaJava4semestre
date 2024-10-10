@@ -17,7 +17,7 @@ public class CadastroMaquinaGUI extends JFrame {
     public CadastroMaquinaGUI() {
         setTitle("Cadastro de Máquina");
         setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(10, 2));
 
         // Criação dos componentes
