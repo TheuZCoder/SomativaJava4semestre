@@ -22,8 +22,8 @@ public class TelaPrincipal extends JFrame {
 
         // Criação dos botões de escolha
         JButton btnCadastroMaquinas = new JButton("Cadastro de Máquinas");
-        JButton btnRegistroManutencao = new JButton("Registro de Manutenções");
-        JButton btnRegistroFalhas = new JButton("Registro de Falhas");
+        JButton btnRegistroManutencao = new JButton("Cadastro de Manutenções");
+        JButton btnRegistroFalhas = new JButton("Cadastro de Falhas");
         JButton btnCadastroTecnicos = new JButton("Cadastro de Técnicos");
         JButton btnRelatorio = new JButton("Relatório");
 
