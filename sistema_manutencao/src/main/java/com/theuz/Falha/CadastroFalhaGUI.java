@@ -23,12 +23,21 @@ import org.json.JSONObject;
 
 public class CadastroFalhaGUI extends JFrame {
 
+    HttpGet request = new HttpGet("http://localhost:8080/maquinas");
+    HttpPost post = new HttpPost("http://localhost:8080/falha");
+    HttpGet requestTecnicos = new HttpGet("http://localhost:8080/tecnicos");
+
     private final JComboBox<String> comboMaquinas;
     private final JTextField txtDataFalha;
     private final JTextField txtProblema;
     private final JComboBox<String> comboPrioridade;
     private final JComboBox<String> comboTecnicos;
     private final JButton btnSalvar, btnVoltar;
+    private final JLabel lblMaquina;
+    private final JLabel lblDataFalha;
+    private final JLabel lblProblema;
+    private final JLabel lblPrioridade;
+    private final JLabel lblTecnico;
 
     public CadastroFalhaGUI() {
         setTitle("Cadastro de Falha");
@@ -37,19 +46,19 @@ public class CadastroFalhaGUI extends JFrame {
         setLayout(new GridLayout(7, 2));
 
         // Labels e campos
-        JLabel lblMaquina = new JLabel("Máquina:");
+        lblMaquina = new JLabel("Máquina:");
         comboMaquinas = new JComboBox<>(new String[]{}); // Aqui você pode buscar as máquinas da API
 
-        JLabel lblDataFalha = new JLabel("Data da Falha:");
+        lblDataFalha = new JLabel("Data da Falha:");
         txtDataFalha = new JTextField();
 
-        JLabel lblProblema = new JLabel("Problema:");
+        lblProblema = new JLabel("Problema:");
         txtProblema = new JTextField();
 
-        JLabel lblPrioridade = new JLabel("Prioridade:");
+        lblPrioridade = new JLabel("Prioridade:");
         comboPrioridade = new JComboBox<>(new String[]{"Baixa", "Média", "Alta"});
 
-        JLabel lblTecnico = new JLabel("Técnico:");
+        lblTecnico = new JLabel("Técnico:");
         comboTecnicos = new JComboBox<>(new String[]{}); // Aqui você pode buscar os técnicos da API
 
         btnSalvar = new JButton("Salvar");
@@ -66,7 +75,7 @@ public class CadastroFalhaGUI extends JFrame {
         add(comboPrioridade);
         add(lblTecnico);
         add(comboTecnicos);
-        add(new JLabel());  // Espaço vazio
+        add(new JLabel());  
         add(new JLabel()); 
         add(btnVoltar); 
         add(btnSalvar);
@@ -97,7 +106,7 @@ public class CadastroFalhaGUI extends JFrame {
         // Monta o JSON com os dados da falha
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             // Define o endpoint da sua API para cadastro de falha
-            HttpPost post = new HttpPost("http://localhost:8080/falha");
+            
 
             // Cria o objeto JSON com os dados da falha
             JSONObject json = new JSONObject();
@@ -128,7 +137,7 @@ public class CadastroFalhaGUI extends JFrame {
 
     private void carregarMaquinas() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://localhost:8080/maquinas");
+          
     
             client.execute(request, response -> {
                 if (response.getCode() == 200) {
@@ -151,9 +160,8 @@ public class CadastroFalhaGUI extends JFrame {
 
     private void carregarTecnicos() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://localhost:8080/tecnicos");
     
-            client.execute(request, response -> {
+            client.execute(requestTecnicos, response -> {
                 if (response.getCode() == 200) {
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray tecnicos = new JSONArray(result);
