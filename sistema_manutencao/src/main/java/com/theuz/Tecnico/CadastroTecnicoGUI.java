@@ -131,6 +131,7 @@ public class CadastroTecnicoGUI extends JFrame {
             client.execute(post, response -> {
                 if (response.getCode() == 200) {
                     JOptionPane.showMessageDialog(null, "Técnico cadastrado com sucesso!");
+                    limparCampos();
                     carregarTecnicos();  // Atualizar a tabela após salvar
                 } else {
                     JOptionPane.showMessageDialog(null, "Erro ao cadastrar o técnico: " + response.getCode());
@@ -231,6 +232,7 @@ public class CadastroTecnicoGUI extends JFrame {
             client.execute(put, response -> {
                 if (response.getCode() == 200) {
                     JOptionPane.showMessageDialog(null, "Técnico atualizado com sucesso!");
+                    limparCampos();
                     carregarTecnicos();  // Atualizar a tabela após edição
                     tecnicoSelecionadoId = -1;  // Limpar seleção
                 } else {
@@ -241,5 +243,11 @@ public class CadastroTecnicoGUI extends JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar técnico: " + e.getMessage());
         }
+    }
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtEspecialidade.setText("");
+        txtDisponibilidade.setText("");
     }
 }
