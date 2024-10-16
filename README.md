@@ -30,7 +30,7 @@ O **Sistema de Manutenção Preventiva e Corretiva** é um software desenvolvido
 ## Tecnologias Utilizadas
 - **Java**: Linguagem principal do projeto.
 - **Swing**: Interface gráfica para a aplicação.
-- **JSON-Server**: API REST para armazenamento e recuperação de dados.
+- **API-JPA**: API REST para armazenamento e recuperação de dados.
 - **Apache HttpClient**: Para realizar requisições à API.
 
 ## Requisitos Funcionais
