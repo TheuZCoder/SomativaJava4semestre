@@ -45,7 +45,8 @@ public class CadastroTecnicoGUI extends JFrame {
         setLayout(new BorderLayout());
 
         // Painel de formulário
-        JPanel painelFormulario = new JPanel(new GridLayout(4, 2, 10, 10)); // Ajustando o espaçamento para ficar mais organizado
+        JPanel painelFormulario = new JPanel(new GridLayout(4, 2, 10, 10)); // Ajustando o espaçamento para ficar mais
+                                                                            // organizado
 
         // Labels e campos
         JLabel lblNome = new JLabel("Nome:");
@@ -67,7 +68,7 @@ public class CadastroTecnicoGUI extends JFrame {
         add(painelFormulario, BorderLayout.NORTH); // Formulário no topo
 
         // Tabela para exibir os técnicos cadastrados
-        String[] colunas = {"ID", "Nome", "Especialidade", "Disponibilidade"};
+        String[] colunas = { "ID", "Nome", "Especialidade", "Disponibilidade" };
         modeloTabelaTecnicos = new DefaultTableModel(colunas, 0);
         tabelaTecnicos = new JTable(modeloTabelaTecnicos);
         JScrollPane scrollPane = new JScrollPane(tabelaTecnicos);
@@ -101,6 +102,7 @@ public class CadastroTecnicoGUI extends JFrame {
         });
 
         btnExcluir.addActionListener((ActionEvent e) -> {
+            carregarDadosParaEdicao();
             excluirTecnico();
         });
 
@@ -133,7 +135,7 @@ public class CadastroTecnicoGUI extends JFrame {
                 if (response.getCode() == 200) {
                     JOptionPane.showMessageDialog(null, "Técnico cadastrado com sucesso!");
                     limparCampos();
-                    carregarTecnicos();  // Atualizar a tabela após salvar
+                    carregarTecnicos(); // Atualizar a tabela após salvar
                 } else {
                     JOptionPane.showMessageDialog(null, "Erro ao cadastrar o técnico: " + response.getCode());
                 }
@@ -153,14 +155,14 @@ public class CadastroTecnicoGUI extends JFrame {
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray tecnicos = new JSONArray(result);
 
-                    modeloTabelaTecnicos.setRowCount(0);  // Limpar a tabela
+                    modeloTabelaTecnicos.setRowCount(0); // Limpar a tabela
                     for (int i = 0; i < tecnicos.length(); i++) {
                         JSONObject tecnico = tecnicos.getJSONObject(i);
                         Object[] rowData = {
-                            tecnico.getInt("id"),
-                            tecnico.getString("nome"),
-                            tecnico.getString("especialidade"),
-                            tecnico.getString("disponibilidade")
+                                tecnico.getInt("id"),
+                                tecnico.getString("nome"),
+                                tecnico.getString("especialidade"),
+                                tecnico.getString("disponibilidade")
                         };
                         modeloTabelaTecnicos.addRow(rowData);
                     }
@@ -182,13 +184,23 @@ public class CadastroTecnicoGUI extends JFrame {
             return;
         }
 
+        // Confirmação antes de excluir
+        // Confirmação antes de excluir
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir o campo selecionado?",
+                "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            limparCampos();
+            return;
+        }
+
         int id = (int) modeloTabelaTecnicos.getValueAt(selectedRow, 0);
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpDelete delete = new HttpDelete("http://localhost:8080/tecnicos/" + id);
             client.execute(delete, response -> {
-                if (response.getCode() == 200) {
+                if (response.getCode() == 204) {
                     JOptionPane.showMessageDialog(null, "Técnico excluído com sucesso!");
-                    carregarTecnicos();  // Atualizar a tabela após exclusão
+                    carregarTecnicos(); // Atualizar a tabela após exclusão
+                    limparCampos();
                 } else {
                     JOptionPane.showMessageDialog(null, "Erro ao excluir o técnico: " + response.getCode());
                 }
@@ -234,8 +246,8 @@ public class CadastroTecnicoGUI extends JFrame {
                 if (response.getCode() == 200) {
                     JOptionPane.showMessageDialog(null, "Técnico atualizado com sucesso!");
                     limparCampos();
-                    carregarTecnicos();  // Atualizar a tabela após edição
-                    tecnicoSelecionadoId = -1;  // Limpar seleção
+                    carregarTecnicos(); // Atualizar a tabela após edição
+                    tecnicoSelecionadoId = -1; // Limpar seleção
                 } else {
                     JOptionPane.showMessageDialog(null, "Erro ao atualizar o técnico: " + response.getCode());
                 }

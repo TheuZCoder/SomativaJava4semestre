@@ -3,6 +3,7 @@ package com.theuz.Maquina;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -17,7 +18,8 @@ import org.json.JSONObject;
 
 public class CadastroMaquinaGUI extends JFrame {
 
-    private JTextField tfCodigo, tfNome, tfModelo, tfFabricante, tfDataAquisicao, tfTempoVida, tfLocalizacao, tfDetalhes, tfManual;
+    private JTextField tfCodigo, tfNome, tfModelo, tfFabricante, tfDataAquisicao, tfTempoVida, tfLocalizacao,
+            tfDetalhes, tfManual;
     private JTable tabelaMaquinas;
     private DefaultTableModel modeloTabela;
     private JButton btnCadastrar, btnEditar, btnExcluir, btnVoltar;
@@ -31,7 +33,7 @@ public class CadastroMaquinaGUI extends JFrame {
 
         // Painel superior (Formulário)
         JPanel painelFormulario = new JPanel(new GridLayout(10, 2));
-        
+
         painelFormulario.add(new JLabel("Código:"));
         tfCodigo = new JTextField();
         painelFormulario.add(tfCodigo);
@@ -81,7 +83,8 @@ public class CadastroMaquinaGUI extends JFrame {
         painelBotoes.add(btnVoltar);
 
         // Tabela de máquinas
-        String[] colunas = {"ID", "Código", "Nome", "Modelo", "Fabricante", "Data Aquisição", "Tempo Vida", "Localização", "Detalhes", "Manual"};
+        String[] colunas = { "ID", "Código", "Nome", "Modelo", "Fabricante", "Data Aquisição", "Tempo Vida",
+                "Localização", "Detalhes", "Manual" };
         modeloTabela = new DefaultTableModel(colunas, 0);
         tabelaMaquinas = new JTable(modeloTabela);
         JScrollPane scrollPane = new JScrollPane(tabelaMaquinas);
@@ -95,7 +98,7 @@ public class CadastroMaquinaGUI extends JFrame {
         carregarMaquinas();
 
         // Ações dos botões
-        btnCadastrar.addActionListener( e -> {
+        btnCadastrar.addActionListener(e -> {
             if (maquinaSelecionadaId == -1) {
                 cadastrarMaquina();
             } else {
@@ -103,7 +106,10 @@ public class CadastroMaquinaGUI extends JFrame {
             }
         });
         btnEditar.addActionListener(e -> carregarDadosParaEdicao());
-        btnExcluir.addActionListener(e -> excluirMaquina());
+        btnExcluir.addActionListener((ActionEvent e) -> {
+            carregarDadosParaEdicao();
+            excluirMaquina();
+        });
         btnVoltar.addActionListener(e -> dispose());
     }
 
@@ -120,16 +126,16 @@ public class CadastroMaquinaGUI extends JFrame {
                     for (int i = 0; i < maquinas.length(); i++) {
                         JSONObject maquina = maquinas.getJSONObject(i);
                         Object[] rowData = {
-                            maquina.getInt("id"),
-                            maquina.getString("codigo"),
-                            maquina.getString("nome"),
-                            maquina.getString("modelo"),
-                            maquina.getString("fabricante"),
-                            maquina.getString("dataAquisicao"),
-                            maquina.getInt("tempoVidaEstimado"),
-                            maquina.getString("localizacao"),
-                            maquina.getString("detalhes"),
-                            maquina.getString("manual")
+                                maquina.getInt("id"),
+                                maquina.getString("codigo"),
+                                maquina.getString("nome"),
+                                maquina.getString("modelo"),
+                                maquina.getString("fabricante"),
+                                maquina.getString("dataAquisicao"),
+                                maquina.getInt("tempoVidaEstimado"),
+                                maquina.getString("localizacao"),
+                                maquina.getString("detalhes"),
+                                maquina.getString("manual")
                         };
                         modeloTabela.addRow(rowData);
                     }
@@ -157,8 +163,6 @@ public class CadastroMaquinaGUI extends JFrame {
             json.put("detalhes", tfDetalhes.getText());
             json.put("manual", tfManual.getText());
 
-            
-
             StringEntity entity = new StringEntity(json.toString());
             post.setEntity(entity);
             post.setHeader("Content-type", "application/json");
@@ -181,26 +185,26 @@ public class CadastroMaquinaGUI extends JFrame {
     }
 
     private void carregarDadosParaEdicao() {
-    int selectedRow = tabelaMaquinas.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Selecione uma máquina para editar.");
-        return;
-    }
+        int selectedRow = tabelaMaquinas.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma máquina para editar.");
+            return;
+        }
 
-    // Obtendo o ID da máquina selecionada
-    maquinaSelecionadaId = (int) modeloTabela.getValueAt(selectedRow, 0);
-    
-    // Carregando os dados da máquina nos campos de texto
-    tfCodigo.setText((String) modeloTabela.getValueAt(selectedRow, 1));
-    tfNome.setText((String) modeloTabela.getValueAt(selectedRow, 2));
-    tfModelo.setText((String) modeloTabela.getValueAt(selectedRow, 3));
-    tfFabricante.setText((String) modeloTabela.getValueAt(selectedRow, 4));
-    tfDataAquisicao.setText((String) modeloTabela.getValueAt(selectedRow, 5));
-    tfTempoVida.setText(String.valueOf(modeloTabela.getValueAt(selectedRow, 6))); // Converter para String
-    tfLocalizacao.setText((String) modeloTabela.getValueAt(selectedRow, 7));
-    tfDetalhes.setText((String) modeloTabela.getValueAt(selectedRow, 8));
-    tfManual.setText((String) modeloTabela.getValueAt(selectedRow, 9));
-}
+        // Obtendo o ID da máquina selecionada
+        maquinaSelecionadaId = (int) modeloTabela.getValueAt(selectedRow, 0);
+
+        // Carregando os dados da máquina nos campos de texto
+        tfCodigo.setText((String) modeloTabela.getValueAt(selectedRow, 1));
+        tfNome.setText((String) modeloTabela.getValueAt(selectedRow, 2));
+        tfModelo.setText((String) modeloTabela.getValueAt(selectedRow, 3));
+        tfFabricante.setText((String) modeloTabela.getValueAt(selectedRow, 4));
+        tfDataAquisicao.setText((String) modeloTabela.getValueAt(selectedRow, 5));
+        tfTempoVida.setText(String.valueOf(modeloTabela.getValueAt(selectedRow, 6))); // Converter para String
+        tfLocalizacao.setText((String) modeloTabela.getValueAt(selectedRow, 7));
+        tfDetalhes.setText((String) modeloTabela.getValueAt(selectedRow, 8));
+        tfManual.setText((String) modeloTabela.getValueAt(selectedRow, 9));
+    }
 
     // Método para atualizar os dados da máquina
     private void atualizarMaquina(int id) {
@@ -248,8 +252,16 @@ public class CadastroMaquinaGUI extends JFrame {
         }
     }
 
-
     private void excluirMaquina() {
+
+        // Confirmação antes de excluir
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir o campo selecionado?",
+                "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            limparCampos();
+            return;
+        } 
+
         int selectedRow = tabelaMaquinas.getSelectedRow();
         if (selectedRow >= 0) {
             int id = (int) tabelaMaquinas.getValueAt(selectedRow, 0);
@@ -257,12 +269,13 @@ public class CadastroMaquinaGUI extends JFrame {
                 HttpDelete delete = new HttpDelete("http://localhost:8080/maquinas/" + id);
                 client.execute(delete, response -> {
                     int statusCode = response.getCode();
-                    
+
                     // Trata tanto o código 200 quanto o 204 como sucesso
                     if (statusCode == 200 || statusCode == 204) {
                         JOptionPane.showMessageDialog(null, "Máquina excluída com sucesso!");
                         modeloTabela.setRowCount(0); // Limpa a tabela
                         carregarMaquinas(); // Atualiza a tabela
+                        limparCampos();
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro ao excluir máquina: " + statusCode);
                     }

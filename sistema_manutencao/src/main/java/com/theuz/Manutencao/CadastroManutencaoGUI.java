@@ -1,6 +1,7 @@
 package com.theuz.Manutencao;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -36,7 +37,7 @@ public class CadastroManutencaoGUI extends JFrame {
         // Painel superior (Formulário)
         JPanel painelFormulario = new JPanel(new GridLayout(10, 2));
         painelFormulario.setBorder(BorderFactory.createTitledBorder("Formulário de Cadastro"));
-        
+
         // Adiciona componentes ao painel do formulário
         painelFormulario.add(new JLabel("Máquina:"));
         comboMaquinas = new JComboBox<>();
@@ -47,7 +48,7 @@ public class CadastroManutencaoGUI extends JFrame {
         painelFormulario.add(txtDataManutencao);
 
         painelFormulario.add(new JLabel("Tipo:"));
-        comboTipoManutencao = new JComboBox<>(new String[]{"Preventiva", "Corretiva", "Predictiva"});
+        comboTipoManutencao = new JComboBox<>(new String[] { "Preventiva", "Corretiva", "Predictiva" });
         painelFormulario.add(comboTipoManutencao);
 
         painelFormulario.add(new JLabel("Peças Trocadas:"));
@@ -78,7 +79,8 @@ public class CadastroManutencaoGUI extends JFrame {
         painelBotoes.add(btnLimpar);
 
         // Painel da tabela
-        tableModel = new DefaultTableModel(new String[]{"ID", "Máquina", "Data", "Tipo", "Peças", "Tempo", "Técnico", "Observações"}, 0);
+        tableModel = new DefaultTableModel(
+                new String[] { "ID", "Máquina", "Data", "Tipo", "Peças", "Tempo", "Técnico", "Observações" }, 0);
         tableManutencoes = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tableManutencoes);
         tableManutencoes.setFillsViewportHeight(true);
@@ -89,12 +91,12 @@ public class CadastroManutencaoGUI extends JFrame {
         add(painelBotoes, BorderLayout.SOUTH);
 
         // Carregar máquinas e técnicos ao iniciar
-        
+
         carregarMaquinas();
         carregarTecnicos();
         listarManutencoes();
         // Ações dos botões
-        btnSalvar.addActionListener( e -> {
+        btnSalvar.addActionListener(e -> {
             if (manutencaoSelecionadaId == -1) {
                 salvarManutencao();
             } else {
@@ -102,7 +104,10 @@ public class CadastroManutencaoGUI extends JFrame {
             }
         });
         btnEditar.addActionListener(e -> carregarDadosParaEdicao());
-        btnExcluir.addActionListener(e -> excluirManutencao());
+        btnExcluir.addActionListener((ActionEvent e) -> {
+            carregarDadosParaEdicao();
+            excluirManutencao();
+        });
         btnLimpar.addActionListener(e -> limparCampos());
 
     }
@@ -114,29 +119,30 @@ public class CadastroManutencaoGUI extends JFrame {
             return;
         }
 
-         // Obtendo o ID da máquina selecionada
-         manutencaoSelecionadaId = (int) tableModel.getValueAt(selectedRow, 0);
+        // Obtendo o ID da máquina selecionada
+        manutencaoSelecionadaId = (int) tableModel.getValueAt(selectedRow, 0);
 
-         // Carregando os dados da manutenção nos campos de texto e JComboBox
-         comboMaquinas.setSelectedItem((String) tableModel.getValueAt(selectedRow, 1));
-         txtDataManutencao.setText((String) tableModel.getValueAt(selectedRow, 2));
-         comboTipoManutencao.setSelectedItem((String) tableModel.getValueAt(selectedRow, 3));
-         txtPecasTrocadas.setText((String) tableModel.getValueAt(selectedRow, 4));
-         txtTempoParado.setText(String.valueOf(tableModel.getValueAt(selectedRow, 5))); // Converter para String
-         comboTecnicos.setSelectedItem((String) tableModel.getValueAt(selectedRow, 6));
-         txtObservacoes.setText((String) tableModel.getValueAt(selectedRow, 7));
-         
+        // Carregando os dados da manutenção nos campos de texto e JComboBox
+        comboMaquinas.setSelectedItem((String) tableModel.getValueAt(selectedRow, 1));
+        txtDataManutencao.setText((String) tableModel.getValueAt(selectedRow, 2));
+        comboTipoManutencao.setSelectedItem((String) tableModel.getValueAt(selectedRow, 3));
+        txtPecasTrocadas.setText((String) tableModel.getValueAt(selectedRow, 4));
+        txtTempoParado.setText(String.valueOf(tableModel.getValueAt(selectedRow, 5))); // Converter para String
+        comboTecnicos.setSelectedItem((String) tableModel.getValueAt(selectedRow, 6));
+        txtObservacoes.setText((String) tableModel.getValueAt(selectedRow, 7));
+
     }
+
     // Método para carregar as máquinas da API e preencher o comboMaquinas
     private void carregarMaquinas() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet("http://localhost:8080/maquinas");
-    
+
             client.execute(request, response -> {
                 if (response.getCode() == 200) {
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray maquinas = new JSONArray(result);
-    
+
                     for (int i = 0; i < maquinas.length(); i++) {
                         JSONObject maquina = maquinas.getJSONObject(i);
                         comboMaquinas.addItem(maquina.getInt("id") + " - " + maquina.getString("nome"));
@@ -150,17 +156,17 @@ public class CadastroManutencaoGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar máquinas: " + e.getMessage());
         }
     }
-    
+
     // Método para carregar os técnicos da API e preencher o comboTecnicos
     private void carregarTecnicos() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet("http://localhost:8080/tecnicos");
-    
+
             client.execute(request, response -> {
                 if (response.getCode() == 200) {
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray tecnicos = new JSONArray(result);
-    
+
                     for (int i = 0; i < tecnicos.length(); i++) {
                         JSONObject tecnico = tecnicos.getJSONObject(i);
                         comboTecnicos.addItem(tecnico.getInt("id") + " - " + tecnico.getString("nome"));
@@ -179,30 +185,30 @@ public class CadastroManutencaoGUI extends JFrame {
     private void listarManutencoes() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet("http://localhost:8080/manutencao");
-    
+
             client.execute(request, response -> {
                 if (response.getCode() == 200) {
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray manutencoes = new JSONArray(result);
                     tableModel.setRowCount(0); // Limpa a tabela antes de preencher
-    
+
                     for (int i = 0; i < manutencoes.length(); i++) {
                         JSONObject manutencao = manutencoes.getJSONObject(i);
-                        
+
                         // Acessando o nome da máquina e do técnico
                         String maquinaNome = manutencao.getJSONObject("maquina").getString("nome");
                         String tecnicoNome = manutencao.getJSONObject("tecnico").getString("nome");
-    
+
                         // Adicionando a linha com o nome da máquina e do técnico
-                        tableModel.addRow(new Object[]{
-                            manutencao.getInt("id"),
-                            maquinaNome,  // Nome da máquina
-                            manutencao.getString("dataManutencao"),
-                            manutencao.getString("tipo"),
-                            manutencao.getString("pecasTrocadas"),
-                            manutencao.getInt("tempoParado"),
-                            tecnicoNome,  // Nome do técnico
-                            manutencao.getString("observacoes")
+                        tableModel.addRow(new Object[] {
+                                manutencao.getInt("id"),
+                                maquinaNome, // Nome da máquina
+                                manutencao.getString("dataManutencao"),
+                                manutencao.getString("tipo"),
+                                manutencao.getString("pecasTrocadas"),
+                                manutencao.getInt("tempoParado"),
+                                tecnicoNome, // Nome do técnico
+                                manutencao.getString("observacoes")
                         });
                     }
                 } else {
@@ -214,18 +220,17 @@ public class CadastroManutencaoGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar manutenções: " + e.getMessage());
         }
     }
-    
 
     // Método para salvar uma nova manutenção
     private void salvarManutencao() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost request = new HttpPost("http://localhost:8080/manutencao");
             JSONObject manutencao = new JSONObject();
-    
+
             // Extrai os dados dos campos
             String maquina = comboMaquinas.getSelectedItem().toString().split(" - ")[0]; // ID da máquina
             String tecnico = comboTecnicos.getSelectedItem().toString().split(" - ")[0]; // ID do técnico
-    
+
             manutencao.put("maquinaId", maquina);
             manutencao.put("dataManutencao", txtDataManutencao.getText());
             manutencao.put("tipo", comboTipoManutencao.getSelectedItem());
@@ -233,11 +238,11 @@ public class CadastroManutencaoGUI extends JFrame {
             manutencao.put("tempoParado", Integer.parseInt(txtTempoParado.getText()));
             manutencao.put("tecnicoId", tecnico);
             manutencao.put("observacoes", txtObservacoes.getText());
-    
+
             StringEntity entity = new StringEntity(manutencao.toString());
             request.setEntity(entity);
             request.setHeader("Content-type", "application/json");
-    
+
             client.execute(request, response -> {
                 if (response.getCode() == 200) {
                     JOptionPane.showMessageDialog(this, "Manutenção salva com sucesso!");
@@ -260,7 +265,7 @@ public class CadastroManutencaoGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Selecione uma manutenção para editar.");
             return;
         }
-    
+
         // Obtendo os dados dos campos do formulário
         String maquina = comboMaquinas.getSelectedItem().toString().split(" - ")[0];
         String dataManutencao = txtDataManutencao.getText();
@@ -269,12 +274,12 @@ public class CadastroManutencaoGUI extends JFrame {
         String tempoParadoText = txtTempoParado.getText();
         String tecnico = comboTecnicos.getSelectedItem().toString().split(" - ")[0];
         String observacoes = txtObservacoes.getText();
-    
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             // Cria a requisição PUT para atualizar a manutenção
             HttpPut put = new HttpPut("http://localhost:8080/manutencao/" + id);
             JSONObject json = new JSONObject();
-    
+
             // Preenchendo o objeto JSON com os dados
             json.put("maquinaId", maquina);
             json.put("dataManutencao", dataManutencao);
@@ -283,12 +288,12 @@ public class CadastroManutencaoGUI extends JFrame {
             json.put("tempoParado", Integer.parseInt(tempoParadoText)); // Convertendo para Integer
             json.put("tecnicoId", tecnico);
             json.put("observacoes", observacoes);
-    
+
             // Configura o corpo da requisição
             StringEntity entity = new StringEntity(json.toString());
             put.setEntity(entity);
             put.setHeader("Content-type", "application/json");
-    
+
             // Executa a requisição
             client.execute(put, response -> {
                 if (response.getCode() == 200) {
@@ -305,12 +310,14 @@ public class CadastroManutencaoGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao editar manutenção: " + e.getMessage());
         }
     }
-    
 
     // Método para excluir a manutenção selecionada
     private void excluirManutencao() {
-        if (manutencaoSelecionadaId == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione uma manutenção para excluir.");
+        // Confirmação antes de excluir
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir o campo selecionado?",
+                "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            limparCampos();
             return;
         }
 
