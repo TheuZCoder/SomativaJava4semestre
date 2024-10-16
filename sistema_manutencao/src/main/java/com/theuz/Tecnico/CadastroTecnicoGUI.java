@@ -45,7 +45,7 @@ public class CadastroTecnicoGUI extends JFrame {
         setLayout(new BorderLayout());
 
         // Painel de formulário
-        JPanel painelFormulario = new JPanel(new GridLayout(4, 2, 10, 10)); // Ajustando o espaçamento para ficar mais
+        JPanel painelFormulario = new JPanel(new GridLayout(4, 2)); // Ajustando o espaçamento para ficar mais
                                                                             // organizado
 
         // Labels e campos
