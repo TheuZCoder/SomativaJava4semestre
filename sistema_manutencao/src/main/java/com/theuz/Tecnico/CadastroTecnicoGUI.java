@@ -1,6 +1,7 @@
 package com.theuz.Tecnico;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class CadastroTecnicoGUI extends JFrame {
         add(scrollPane, BorderLayout.CENTER); // Tabela no centro
 
         // Painel de botões
-        JPanel painelBotoes = new JPanel(new GridLayout(1, 4, 10, 10)); // Organizando os botões em linha
+        JPanel painelBotoes = new JPanel(new FlowLayout()); // Organizando os botões em linha
         btnSalvar = new JButton("Salvar");
         btnVoltar = new JButton("Voltar");
         btnExcluir = new JButton("Excluir");
