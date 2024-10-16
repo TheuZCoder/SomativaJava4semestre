@@ -44,15 +44,3 @@ O **Sistema de Manutenção Preventiva e Corretiva** é um software desenvolvido
 - A interface deve ser amigável e proporcionar fácil navegação entre as funcionalidades.
 - O sistema deve garantir o armazenamento seguro e eficiente dos dados.
 
-## Como Rodar o Projeto
-
-### Pré-requisitos
-- **Java Development Kit (JDK)** instalado.
-- **Maven** para gerenciamento de dependências.
-- **JSON-Server** para emulação da API REST.
-- Editor de código, como **IntelliJ** ou **Eclipse**.
-
-### Passos para Rodar
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/sistema-manutencao.git
