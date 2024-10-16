@@ -57,6 +57,7 @@ public class CadastroManutencaoGUI extends JFrame {
 
         painelFormulario.add(new JLabel("Tempo Parado (horas):"));
         txtTempoParado = new JTextField();
+        
         painelFormulario.add(txtTempoParado);
 
         painelFormulario.add(new JLabel("Técnico:"));
@@ -223,6 +224,14 @@ public class CadastroManutencaoGUI extends JFrame {
 
     // Método para salvar uma nova manutenção
     private void salvarManutencao() {
+        String tempoParadoText = txtTempoParado.getText();
+        if (!tempoParadoText.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido para 'Tempo Parado'.", 
+                    "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            txtTempoParado.requestFocus(); // Focar no campo para correção
+            return; // Não prossegue se a validação falhar
+        }
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost request = new HttpPost("http://localhost:8080/manutencao");
             JSONObject manutencao = new JSONObject();

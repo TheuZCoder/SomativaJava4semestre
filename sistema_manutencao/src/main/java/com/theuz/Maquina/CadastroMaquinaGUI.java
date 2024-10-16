@@ -150,6 +150,14 @@ public class CadastroMaquinaGUI extends JFrame {
     }
 
     private void cadastrarMaquina() {
+        String tempoParadoText =  tfTempoVida.getText();
+        if (!tempoParadoText.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido para 'Tempo de vida'.",
+                    "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                    tfTempoVida.requestFocus(); // Focar no campo para correção
+            return; // Não prossegue se a validação falhar
+        }
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost post = new HttpPost("http://localhost:8080/maquinas");
             JSONObject json = new JSONObject();
@@ -260,7 +268,7 @@ public class CadastroMaquinaGUI extends JFrame {
         if (confirmacao != JOptionPane.YES_OPTION) {
             limparCampos();
             return;
-        } 
+        }
 
         int selectedRow = tabelaMaquinas.getSelectedRow();
         if (selectedRow >= 0) {
