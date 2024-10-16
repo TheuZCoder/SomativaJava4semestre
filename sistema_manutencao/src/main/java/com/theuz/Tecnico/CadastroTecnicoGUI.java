@@ -83,8 +83,8 @@ public class CadastroTecnicoGUI extends JFrame {
 
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnSalvar);
-        painelBotoes.add(btnExcluir);
         painelBotoes.add(btnEditar);
+        painelBotoes.add(btnExcluir);
 
         add(painelBotoes, BorderLayout.SOUTH); // Botões na parte inferior
 

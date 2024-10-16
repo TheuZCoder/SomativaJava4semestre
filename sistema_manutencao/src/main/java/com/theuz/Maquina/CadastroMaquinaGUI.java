@@ -77,10 +77,10 @@ public class CadastroMaquinaGUI extends JFrame {
         btnExcluir = new JButton("Excluir");
         btnVoltar = new JButton("Voltar");
 
+        painelBotoes.add(btnVoltar);
         painelBotoes.add(btnCadastrar);
         painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
-        painelBotoes.add(btnVoltar);
 
         // Tabela de máquinas
         String[] colunas = { "ID", "Código", "Nome", "Modelo", "Fabricante", "Data Aquisição", "Tempo Vida",
