@@ -114,6 +114,7 @@ public class CadastroManutencaoGUI extends JFrame {
         
         carregarMaquinas();
         carregarTecnicos();
+        listarManutencoes();
         // Ações dos botões
         btnSalvar.addActionListener(e -> salvarManutencao());
         btnEditar.addActionListener(e -> editarManutencao());
@@ -199,17 +200,23 @@ public class CadastroManutencaoGUI extends JFrame {
                     String result = EntityUtils.toString(response.getEntity());
                     JSONArray manutencoes = new JSONArray(result);
                     tableModel.setRowCount(0); // Limpa a tabela antes de preencher
-
+    
                     for (int i = 0; i < manutencoes.length(); i++) {
                         JSONObject manutencao = manutencoes.getJSONObject(i);
+                        
+                        // Acessando o nome da máquina e do técnico
+                        String maquinaNome = manutencao.getJSONObject("maquina").getString("nome");
+                        String tecnicoNome = manutencao.getJSONObject("tecnico").getString("nome");
+    
+                        // Adicionando a linha com o nome da máquina e do técnico
                         tableModel.addRow(new Object[]{
                             manutencao.getInt("id"),
-                            manutencao.getString("maquinaNome"),
+                            maquinaNome,  // Nome da máquina
                             manutencao.getString("dataManutencao"),
                             manutencao.getString("tipo"),
                             manutencao.getString("pecasTrocadas"),
                             manutencao.getInt("tempoParado"),
-                            manutencao.getString("tecnicoNome"),
+                            tecnicoNome,  // Nome do técnico
                             manutencao.getString("observacoes")
                         });
                     }
@@ -222,6 +229,7 @@ public class CadastroManutencaoGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar manutenções: " + e.getMessage());
         }
     }
+    
 
     // Método para salvar uma nova manutenção
     private void salvarManutencao() {
@@ -246,7 +254,7 @@ public class CadastroManutencaoGUI extends JFrame {
             request.setHeader("Content-type", "application/json");
     
             client.execute(request, response -> {
-                if (response.getCode() == 201) {
+                if (response.getCode() == 200) {
                     JOptionPane.showMessageDialog(this, "Manutenção salva com sucesso!");
                     listarManutencoes(); // Atualiza a tabela
                     limparCampos();
