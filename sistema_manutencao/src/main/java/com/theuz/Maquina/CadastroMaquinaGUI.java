@@ -202,51 +202,51 @@ public class CadastroMaquinaGUI extends JFrame {
     tfManual.setText((String) modeloTabela.getValueAt(selectedRow, 9));
 }
 
-// Método para atualizar os dados da máquina
-private void atualizarMaquina(int id) {
-    // Obtendo os dados dos campos de texto
-    String codigo = tfCodigo.getText();
-    String nome = tfNome.getText();
-    String modelo = tfModelo.getText();
-    String fabricante = tfFabricante.getText();
-    String dataAquisicao = tfDataAquisicao.getText();
-    String tempoVidaText = tfTempoVida.getText();
-    String localizacao = tfLocalizacao.getText();
-    String detalhes = tfDetalhes.getText();
-    String manual = tfManual.getText();
+    // Método para atualizar os dados da máquina
+    private void atualizarMaquina(int id) {
+        // Obtendo os dados dos campos de texto
+        String codigo = tfCodigo.getText();
+        String nome = tfNome.getText();
+        String modelo = tfModelo.getText();
+        String fabricante = tfFabricante.getText();
+        String dataAquisicao = tfDataAquisicao.getText();
+        String tempoVidaText = tfTempoVida.getText();
+        String localizacao = tfLocalizacao.getText();
+        String detalhes = tfDetalhes.getText();
+        String manual = tfManual.getText();
 
-    try (CloseableHttpClient client = HttpClients.createDefault()) {
-        HttpPut put = new HttpPut("http://localhost:8080/maquinas/" + id);
-        JSONObject json = new JSONObject();
-        json.put("codigo", codigo);
-        json.put("nome", nome);
-        json.put("modelo", modelo);
-        json.put("fabricante", fabricante);
-        json.put("dataAquisicao", dataAquisicao);
-        json.put("tempoVidaEstimado", Integer.parseInt(tempoVidaText)); // Convertendo para Integer
-        json.put("localizacao", localizacao);
-        json.put("detalhes", detalhes);
-        json.put("manual", manual);
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpPut put = new HttpPut("http://localhost:8080/maquinas/" + id);
+            JSONObject json = new JSONObject();
+            json.put("codigo", codigo);
+            json.put("nome", nome);
+            json.put("modelo", modelo);
+            json.put("fabricante", fabricante);
+            json.put("dataAquisicao", dataAquisicao);
+            json.put("tempoVidaEstimado", Integer.parseInt(tempoVidaText)); // Convertendo para Integer
+            json.put("localizacao", localizacao);
+            json.put("detalhes", detalhes);
+            json.put("manual", manual);
 
-        StringEntity entity = new StringEntity(json.toString());
-        put.setEntity(entity);
-        put.setHeader("Content-type", "application/json");
+            StringEntity entity = new StringEntity(json.toString());
+            put.setEntity(entity);
+            put.setHeader("Content-type", "application/json");
 
-        client.execute(put, response -> {
-            if (response.getCode() == 200) {
-                JOptionPane.showMessageDialog(null, "Máquina atualizada com sucesso!");
-                limparCampos();
-                carregarMaquinas(); // Atualizar a tabela após edição
-                maquinaSelecionadaId = -1; // Limpar seleção
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao atualizar a máquina: " + response.getCode());
-            }
-            return null;
-        });
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Erro ao atualizar máquina: " + e.getMessage());
+            client.execute(put, response -> {
+                if (response.getCode() == 200) {
+                    JOptionPane.showMessageDialog(null, "Máquina atualizada com sucesso!");
+                    limparCampos();
+                    carregarMaquinas(); // Atualizar a tabela após edição
+                    maquinaSelecionadaId = -1; // Limpar seleção
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao atualizar a máquina: " + response.getCode());
+                }
+                return null;
+            });
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar máquina: " + e.getMessage());
+        }
     }
-}
 
 
     private void excluirMaquina() {
