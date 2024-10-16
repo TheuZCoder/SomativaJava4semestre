@@ -25,8 +25,6 @@ public class CadastroManutencaoGUI extends JFrame {
     private final JTextField txtTempoParado;
     private final JComboBox<String> comboTecnicos;
     private final JTextField txtObservacoes;
-    private final JButton btnSalvar, btnVoltar;
-    private final JButton btnEditar, btnExcluir;
     private final JTable tableManutencoes;
     private final DefaultTableModel tableModel;
     private int manutencaoSelecionadaId = -1; // ID da manutenção selecionada
@@ -80,10 +78,6 @@ public class CadastroManutencaoGUI extends JFrame {
         painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
         painelBotoes.add(btnLimpar);
-        this.btnSalvar = new JButton();
-        this.btnVoltar = new JButton();
-        this.btnEditar = new JButton();
-        this.btnExcluir = new JButton();
 
         // Painel da tabela
         tableModel = new DefaultTableModel(new String[]{"ID", "Máquina", "Data", "Tipo", "Peças", "Tempo", "Técnico", "Observações"}, 0);
@@ -198,7 +192,7 @@ public class CadastroManutencaoGUI extends JFrame {
     // Método para listar as manutenções cadastradas
     private void listarManutencoes() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://localhost:8080/manutencoes");
+            HttpGet request = new HttpGet("http://localhost:8080/manutencao");
     
             client.execute(request, response -> {
                 if (response.getCode() == 200) {
@@ -232,7 +226,7 @@ public class CadastroManutencaoGUI extends JFrame {
     // Método para salvar uma nova manutenção
     private void salvarManutencao() {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost("http://localhost:8080/manutencoes");
+            HttpPost request = new HttpPost("http://localhost:8080/manutencao");
             JSONObject manutencao = new JSONObject();
     
             // Extrai os dados dos campos
@@ -274,7 +268,7 @@ public class CadastroManutencaoGUI extends JFrame {
         }
 
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPut request = new HttpPut("http://localhost:8080/manutencoes/" + manutencaoSelecionadaId);
+            HttpPut request = new HttpPut("http://localhost:8080/manutencao/" + manutencaoSelecionadaId);
             JSONObject manutencao = new JSONObject();
 
             String maquina = comboMaquinas.getSelectedItem().toString().split(" - ")[0];
@@ -316,7 +310,7 @@ public class CadastroManutencaoGUI extends JFrame {
         }
 
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpDelete request = new HttpDelete("http://localhost:8080/manutencoes/" + manutencaoSelecionadaId);
+            HttpDelete request = new HttpDelete("http://localhost:8080/manutencao/" + manutencaoSelecionadaId);
 
             client.execute(request, response -> {
                 if (response.getCode() == 204) {
