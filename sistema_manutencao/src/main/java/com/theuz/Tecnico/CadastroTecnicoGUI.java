@@ -32,7 +32,7 @@ public class CadastroTecnicoGUI extends JFrame {
     private final JTextField txtNome;
     private final JTextField txtEspecialidade;
     private final JTextField txtDisponibilidade;
-    private final JButton btnSalvar, btnVoltar, btnExcluir, btnEditar;
+    private final JButton btnSalvar, btnVoltar, btnExcluir, btnEditar, btnCancelar;
     private final JTable tabelaTecnicos;
     private final DefaultTableModel modeloTabelaTecnicos;
 
@@ -80,11 +80,13 @@ public class CadastroTecnicoGUI extends JFrame {
         btnVoltar = new JButton("Voltar");
         btnExcluir = new JButton("Excluir");
         btnEditar = new JButton("Editar");
+        btnCancelar = new JButton("Cancelar");
 
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnCancelar);
 
         add(painelBotoes, BorderLayout.SOUTH); // Botões na parte inferior
 
@@ -108,6 +110,10 @@ public class CadastroTecnicoGUI extends JFrame {
 
         btnEditar.addActionListener((ActionEvent e) -> {
             carregarDadosParaEdicao();
+        });
+
+        btnCancelar.addActionListener((ActionEvent e) -> {
+            limparCampos();
         });
 
         // Carregar técnicos ao iniciar

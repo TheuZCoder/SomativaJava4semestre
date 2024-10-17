@@ -39,7 +39,7 @@ public class CadastroFalhaGUI extends JFrame {
     private final JTextField txtProblema;
     private final JComboBox<String> comboPrioridade;
     private final JComboBox<String> comboTecnicos;
-    private final JButton btnSalvar, btnEditar, btnExcluir, btnVoltar;
+    private final JButton btnSalvar, btnEditar, btnExcluir, btnVoltar, btnCancelar;
     private final JLabel lblMaquina;
     private final JLabel lblDataFalha;
     private final JLabel lblProblema;
@@ -90,11 +90,13 @@ public class CadastroFalhaGUI extends JFrame {
         btnEditar = new JButton("Editar");
         btnExcluir = new JButton("Excluir");
         btnVoltar = new JButton("Voltar");
+        btnCancelar = new JButton("Cancelar");
 
         panelBotoes.add(btnVoltar);
         panelBotoes.add(btnSalvar);
         panelBotoes.add(btnEditar);
         panelBotoes.add(btnExcluir);
+        panelBotoes.add(btnCancelar);
 
         // Adicionando tabela para exibir falhas cadastradas
         tableModel = new DefaultTableModel(
@@ -114,6 +116,10 @@ public class CadastroFalhaGUI extends JFrame {
             } else {
                 editarFalha(falhaSelecionadaId);
             }
+        });
+
+        btnCancelar.addActionListener(e -> {
+            limparCampos();
         });
 
         // Ação do botão editar

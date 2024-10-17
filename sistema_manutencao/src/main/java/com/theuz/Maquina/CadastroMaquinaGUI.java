@@ -22,7 +22,7 @@ public class CadastroMaquinaGUI extends JFrame {
             tfDetalhes, tfManual;
     private JTable tabelaMaquinas;
     private DefaultTableModel modeloTabela;
-    private JButton btnCadastrar, btnEditar, btnExcluir, btnVoltar;
+    private JButton btnCadastrar, btnEditar, btnExcluir, btnVoltar, btnCancelar;
     private int maquinaSelecionadaId = -1;
 
     public CadastroMaquinaGUI() {
@@ -76,11 +76,13 @@ public class CadastroMaquinaGUI extends JFrame {
         btnEditar = new JButton("Editar");
         btnExcluir = new JButton("Excluir");
         btnVoltar = new JButton("Voltar");
+        btnCancelar = new JButton("Cancelar");
 
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnCadastrar);
         painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnCancelar);
 
         // Tabela de máquinas
         String[] colunas = { "ID", "Código", "Nome", "Modelo", "Fabricante", "Data Aquisição", "Tempo Vida",
@@ -111,6 +113,7 @@ public class CadastroMaquinaGUI extends JFrame {
             excluirMaquina();
         });
         btnVoltar.addActionListener(e -> dispose());
+        btnCancelar.addActionListener(e -> limparCampos());
     }
 
     private void carregarMaquinas() {

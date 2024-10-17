@@ -74,11 +74,13 @@ public class CadastroManutencaoGUI extends JFrame {
         JButton btnEditar = new JButton("Editar");
         JButton btnExcluir = new JButton("Excluir");
         JButton btnVoltar = new JButton("Voltar");
+        JButton btnCancelar = new JButton("Cancelar");
         
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnCancelar);
 
         // Painel da tabela
         tableModel = new DefaultTableModel(
@@ -111,6 +113,8 @@ public class CadastroManutencaoGUI extends JFrame {
             excluirManutencao();
         });
         btnVoltar.addActionListener(e -> dispose());
+
+        btnCancelar.addActionListener(e -> limparCampos());
 
     }
 
