@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "RelatorioPDF",
+            "request": "launch",
+            "mainClass": "com.theuz.Relatorio.RelatorioPDF",
+            "projectName": "sistema_manutencao"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "com.theuz.Main",
