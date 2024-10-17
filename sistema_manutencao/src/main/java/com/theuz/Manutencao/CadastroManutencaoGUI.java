@@ -289,6 +289,13 @@ public class CadastroManutencaoGUI extends JFrame {
         String tecnico = comboTecnicos.getSelectedItem().toString().split(" - ")[0];
         String observacoes = txtObservacoes.getText();
 
+        if (!tempoParadoText.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido para 'Tempo Parado'.", 
+                    "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            txtTempoParado.requestFocus(); // Focar no campo para correção
+            return; // Não prossegue se a validação falhar
+        }
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             // Cria a requisição PUT para atualizar a manutenção
             HttpPut put = new HttpPut("http://localhost:8080/manutencao/" + id);

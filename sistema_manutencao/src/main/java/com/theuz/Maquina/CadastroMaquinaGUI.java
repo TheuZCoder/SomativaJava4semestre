@@ -230,6 +230,13 @@ public class CadastroMaquinaGUI extends JFrame {
         String detalhes = tfDetalhes.getText();
         String manual = tfManual.getText();
 
+        if (!tempoVidaText.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido para 'Tempo de vida'.",
+                    "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                    tfTempoVida.requestFocus(); // Focar no campo para correção
+            return; // Não prossegue se a validação falhar
+        }
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPut put = new HttpPut("http://localhost:8080/maquinas/" + id);
             JSONObject json = new JSONObject();
