@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,17 +20,22 @@ import java.io.IOException;
 
 public class RelatorioPDF extends JFrame {
 
-    private JFrame frame;
-
     public RelatorioPDF() {
-        frame = new JFrame("Gerar Relatório PDF");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
-        frame.setLayout(null);
+        setTitle("Gerar Relatório PDF");
+        setSize(400, 100);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
         JButton btnGerar = new JButton("Gerar Relatório");
-        btnGerar.setBounds(30, 80, 150, 30);
-        frame.add(btnGerar);
+        JButton btnVoltar = new JButton("Voltar");
+
+        JPanel panelBotoes = new JPanel(new FlowLayout());
+        panelBotoes.add(btnVoltar);
+        panelBotoes.add(btnGerar);
+
+        add(panelBotoes, BorderLayout.SOUTH); // Adiciona o painel de botões na parte inferior
+
+        btnVoltar.addActionListener(e -> dispose());
 
         btnGerar.addActionListener(new ActionListener() {
             @Override
@@ -38,7 +44,7 @@ public class RelatorioPDF extends JFrame {
             }
         });
 
-        frame.setVisible(true);
+        setVisible(true);
     }
 
     private void gerarRelatorio() {
@@ -48,7 +54,7 @@ public class RelatorioPDF extends JFrame {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setSelectedFile(new File("relatorio.pdf"));
 
-        int userSelection = fileChooser.showSaveDialog(frame);
+        int userSelection = fileChooser.showSaveDialog(this); // Referência ao JFrame
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             String nomeArquivo = fileToSave.getAbsolutePath();
@@ -74,9 +80,9 @@ public class RelatorioPDF extends JFrame {
                 listarFalhas(document);
 
                 document.close();
-                JOptionPane.showMessageDialog(frame, "Relatório gerado com sucesso!\nCaminho: " + nomeArquivo);
+                JOptionPane.showMessageDialog(this, "Relatório gerado com sucesso!\nCaminho: " + nomeArquivo);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, "Erro ao gerar o relatório: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Erro ao gerar o relatório: " + ex.getMessage());
             }
         }
     }
@@ -145,9 +151,5 @@ public class RelatorioPDF extends JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar falhas: " + e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        new RelatorioPDF();
     }
 }

@@ -359,5 +359,6 @@ public class CadastroManutencaoGUI extends JFrame {
         txtTempoParado.setText("");
         comboTecnicos.setSelectedIndex(0);
         txtObservacoes.setText("");
+        manutencaoSelecionadaId = -1;
     }
 }

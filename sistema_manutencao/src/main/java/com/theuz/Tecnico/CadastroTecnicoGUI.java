@@ -262,5 +262,6 @@ public class CadastroTecnicoGUI extends JFrame {
         txtNome.setText("");
         txtEspecialidade.setText("");
         txtDisponibilidade.setText("");
+        tecnicoSelecionadoId = -1;
     }
 }

@@ -307,5 +307,6 @@ public class CadastroMaquinaGUI extends JFrame {
         tfLocalizacao.setText("");
         tfDetalhes.setText("");
         tfManual.setText("");
+        maquinaSelecionadaId = -1;
     }
 }

@@ -371,6 +371,7 @@ public class CadastroFalhaGUI extends JFrame {
         txtProblema.setText("");
         comboPrioridade.setSelectedIndex(0);
         comboTecnicos.setSelectedIndex(0);
+        falhaSelecionadaId = -1;
     }
 
 }
