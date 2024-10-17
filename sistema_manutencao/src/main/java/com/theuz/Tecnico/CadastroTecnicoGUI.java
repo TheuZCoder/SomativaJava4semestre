@@ -207,8 +207,10 @@ public class CadastroTecnicoGUI extends JFrame {
                     JOptionPane.showMessageDialog(null, "Técnico excluído com sucesso!");
                     carregarTecnicos(); // Atualizar a tabela após exclusão
                     limparCampos();
+                } else if (response.getCode() == 500) { // Ou qualquer outro código que sua API retorne para chave estrangeira
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir Técnico: Este registro de Técnico está sendo utilizada em outra tabela.");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao excluir o técnico: " + response.getCode());
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir Técnico: " + response.getCode());
                 }
                 return null;
             });

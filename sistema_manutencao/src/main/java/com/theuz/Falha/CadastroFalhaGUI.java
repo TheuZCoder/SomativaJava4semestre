@@ -246,8 +246,10 @@ public class CadastroFalhaGUI extends JFrame {
                     listarFalhas(); // Atualizar a tabela após exclusão
                     limparCampos(); // Limpar campos após exclusão
                     falhaSelecionadaId = -1; // Limpar seleção
+                } else if (response.getCode() == 500) { // Ou qualquer outro código que sua API retorne para chave estrangeira
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir registro de Falha: Este registro de Falha está sendo utilizada em outra tabela.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao excluir falha: " + response.getCode());
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir registro de Falha: " + response.getCode());
                 }
                 return null;
             });

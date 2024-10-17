@@ -294,6 +294,8 @@ public class CadastroMaquinaGUI extends JFrame {
                         modeloTabela.setRowCount(0); // Limpa a tabela
                         carregarMaquinas(); // Atualiza a tabela
                         limparCampos();
+                    } else if (statusCode == 500) { // Ou qualquer outro código que sua API retorne para chave estrangeira
+                        JOptionPane.showMessageDialog(null, "Erro ao excluir máquina: Esta máquina está sendo utilizada em outra tabela.");
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro ao excluir máquina: " + statusCode);
                     }
